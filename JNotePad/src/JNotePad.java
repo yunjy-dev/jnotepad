@@ -37,6 +37,8 @@ public class JNotePad extends JFrame {
 	private ActionMap createActionMap() {
 		ActionMap am = new ActionMap();
 		am.put("about", new AboutAction());
+		am.put("help", new HelpAction());
+
 		return am;
 	}
 	private JMenuBar createMenuBar() {
@@ -63,7 +65,8 @@ public class JNotePad extends JFrame {
 		
 		//Help
 		m = new JMenu("Help");
-		m.add(new JMenuItem("Help"));
+//		m.add(new JMenuItem("Help"));
+		m.add(new JMenuItem(_actionMap.get("help")));
 //		m.add(new JMenuItem("About"));
 		
 //		JMenuItem mi = new JMenuItem("About");
@@ -89,7 +92,8 @@ public class JNotePad extends JFrame {
 		toolbar.add(new JButton("Paste"));
 		toolbar.addSeparator();
 		
-		toolbar.add(new JButton("Help"));
+//		toolbar.add(new JButton("Help"));
+		toolbar.add(new JButton(_actionMap.get("help")));
 //		toolbar.add(new JButton("About"));
 		toolbar.add(new JButton(_actionMap.get("about")));
 		toolbar.addSeparator();
@@ -107,7 +111,7 @@ public class JNotePad extends JFrame {
 		new JNotePad().start();
 	}
 	
-	class AboutAction extends AbstractAction{
+	private class AboutAction extends AbstractAction{
 		public AboutAction() {
 			super("About");//About text가 보이게
 		}
@@ -118,6 +122,19 @@ public class JNotePad extends JFrame {
 			};
 			JOptionPane.showMessageDialog(JNotePad.this,  mesg, "About JNotePad", JOptionPane.INFORMATION_MESSAGE);
 			
+		}
+	}
+	
+	private class HelpAction extends AbstractAction{
+		public HelpAction() {
+			super("Help");
+		}
+		public void actionPerformed(ActionEvent e) {
+			String[] mesg = {
+					"Sorry",
+					"Help contents are not supported yet."
+			};
+			JOptionPane.showMessageDialog(JNotePad.this, mesg, "Help JNotePad", JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 
