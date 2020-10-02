@@ -1,10 +1,13 @@
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
@@ -53,6 +56,10 @@ public class JNotePad extends JFrame {
 		m.add(new JMenuItem("About"));
 		menubar.add(m);
 		
+		JMenuItem mi = new JMenuItem("About");
+		mi.addActionListener(new AboutActionListener());
+		m.add(mi);
+		
 		return menubar;
 	}
 	private JToolBar createToolBar() {
@@ -86,5 +93,19 @@ public class JNotePad extends JFrame {
 		
 		new JNotePad().start();
 	}
+	
+	class AboutActionListener implements ActionListener{
+		public void actionPerformed(ActionEvent e) {
+			String[] mesg = {
+					"JNotePad v 0.1",
+					"Author: June"
+			};
+			JOptionPane.showMessageDialog(JNotePad.this,  mesg, "About JNotePad", JOptionPane.INFORMATION_MESSAGE);
+			
+		}
+	}
 
 }
+
+
+
