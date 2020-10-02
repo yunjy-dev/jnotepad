@@ -2,6 +2,8 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.AbstractAction;
+import javax.swing.ActionMap;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -16,17 +18,26 @@ import javax.swing.JToolBar;
 public class JNotePad extends JFrame {
 	
 	private JTextPane _textPane;
+	private ActionMap _actionMap;
 	
 	public JNotePad() {
 		super("JNotePad");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		_textPane = new JTextPane();
+		_actionMap = createActionMap();
+
 		add(_textPane);
 		setJMenuBar(createMenuBar());
 		add(createToolBar(), BorderLayout.NORTH);
 		
 		JScrollPane p = new JScrollPane(_textPane);
 		add(p);
+		
+	}
+	private ActionMap createActionMap() {
+		ActionMap am = new ActionMap();
+		am.put("about", new AboutAction());
+		return am;
 	}
 	private JMenuBar createMenuBar() {
 		
@@ -54,12 +65,13 @@ public class JNotePad extends JFrame {
 		m = new JMenu("Help");
 		m.add(new JMenuItem("Help"));
 //		m.add(new JMenuItem("About"));
+		
+//		JMenuItem mi = new JMenuItem("About");
+//		mi.addActionListener(new AboutAction());
+//		m.add(mi);
+		m.add(new JMenuItem(_actionMap.get("about")));
+		
 		menubar.add(m);
-		
-		JMenuItem mi = new JMenuItem("About");
-		mi.addActionListener(new AboutActionListener());
-		m.add(mi);
-		
 		return menubar;
 	}
 	private JToolBar createToolBar() {
@@ -78,7 +90,8 @@ public class JNotePad extends JFrame {
 		toolbar.addSeparator();
 		
 		toolbar.add(new JButton("Help"));
-		toolbar.add(new JButton("About"));
+//		toolbar.add(new JButton("About"));
+		toolbar.add(new JButton(_actionMap.get("about")));
 		toolbar.addSeparator();
 		
 		return toolbar;
@@ -94,7 +107,10 @@ public class JNotePad extends JFrame {
 		new JNotePad().start();
 	}
 	
-	class AboutActionListener implements ActionListener{
+	class AboutAction extends AbstractAction{
+		public AboutAction() {
+			super("About");//About text가 보이게
+		}
 		public void actionPerformed(ActionEvent e) {
 			String[] mesg = {
 					"JNotePad v 0.1",
