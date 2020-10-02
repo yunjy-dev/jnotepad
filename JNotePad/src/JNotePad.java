@@ -53,7 +53,7 @@ public class JNotePad extends JFrame {
 		//Help
 		m = new JMenu("Help");
 		m.add(new JMenuItem("Help"));
-		m.add(new JMenuItem("About"));
+//		m.add(new JMenuItem("About"));
 		menubar.add(m);
 		
 		JMenuItem mi = new JMenuItem("About");
