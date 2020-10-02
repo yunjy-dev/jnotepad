@@ -5,6 +5,8 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.JToolBar;
 
@@ -19,6 +21,9 @@ public class JNotePad extends JFrame {
 		add(_textPane);
 		setJMenuBar(createMenuBar());
 		add(createToolBar(), BorderLayout.NORTH);
+		
+		JScrollPane p = new JScrollPane(_textPane);
+		add(p);
 	}
 	private JMenuBar createMenuBar() {
 		
