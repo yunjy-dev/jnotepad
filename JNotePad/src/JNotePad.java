@@ -3,6 +3,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.ActionMap;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -17,7 +18,7 @@ import javax.swing.JToolBar;
 
 public class JNotePad extends JFrame {
 	
-	private JTextPane _textPane;
+	private static JTextPane _textPane;
 	private ActionMap _actionMap;
 	
 	public JNotePad() {
@@ -38,6 +39,7 @@ public class JNotePad extends JFrame {
 		ActionMap am = new ActionMap();
 		am.put("about", new AboutAction());
 		am.put("help", new HelpAction());
+		am.put("cut", new CutAction());
 
 		return am;
 	}
@@ -58,7 +60,8 @@ public class JNotePad extends JFrame {
 		
 		// Edit
 		m = new JMenu("Edit");
-		m.add(new JMenuItem("Cut"));
+//		m.add(new JMenuItem("Cut"));
+		m.add(new JMenuItem(_actionMap.get("cut")));
 		m.add(new JMenuItem("Copy"));
 		m.add(new JMenuItem("Paste"));
 		menubar.add(m);
@@ -88,7 +91,8 @@ public class JNotePad extends JFrame {
 		toolbar.addSeparator();
 		
 		toolbar.add(new JButton("Copy"));
-		toolbar.add(new JButton("Cut"));
+//		toolbar.add(new JButton("Cut"));
+		toolbar.add(new JButton(_actionMap.get("cut")));
 		toolbar.add(new JButton("Paste"));
 		toolbar.addSeparator();
 		
@@ -135,6 +139,18 @@ public class JNotePad extends JFrame {
 					"Help contents are not supported yet."
 			};
 			JOptionPane.showMessageDialog(JNotePad.this, mesg, "Help JNotePad", JOptionPane.INFORMATION_MESSAGE);
+		}
+	}
+	
+	private class CutAction extends AbstractAction{
+		public CutAction() {
+			super("Cut");
+		}
+		public void actionPerformed(ActionEvent e) {
+			System.out.println(getValue(Action.NAME));
+			System.out.println(getValue(JNotePad._textPane.getText().toString()));//¿Ö null???????
+
+			_textPane.cut();
 		}
 	}
 
