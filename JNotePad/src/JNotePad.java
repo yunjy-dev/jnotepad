@@ -42,6 +42,8 @@ public class JNotePad extends JFrame {
 		am.put("cut", new CutAction());
 		am.put("exit", new ExitAction());
 		am.put("new", new NewAction());
+		am.put("open", new OpenAction());
+
 
 
 		return am;
@@ -55,7 +57,8 @@ public class JNotePad extends JFrame {
 		m = new JMenu("File");
 //		m.add(new JMenuItem("New"));
 		m.add(new JMenuItem(_actionMap.get("new")));
-		m.add(new JMenuItem("Open..."));
+//		m.add(new JMenuItem("Open..."));
+		m.add(new JMenuItem(_actionMap.get("open")));
 		m.add(new JMenuItem("Save"));
 		m.add(new JMenuItem("Save As..."));
 		m.addSeparator();
@@ -91,7 +94,8 @@ public class JNotePad extends JFrame {
 
 //		toolbar.add(new JButton("New"));
 		toolbar.add(new JButton(_actionMap.get("new")));
-		toolbar.add(new JButton("Open"));
+//		toolbar.add(new JButton("Open"));
+		toolbar.add(new JButton(_actionMap.get("open")));
 		toolbar.add(new JButton("Save"));
 		toolbar.add(new JButton("Save As"));
 		toolbar.addSeparator();
@@ -185,6 +189,21 @@ public class JNotePad extends JFrame {
 			System.out.println(getValue(Action.NAME));
 			//TODO: 사용자에게 저장할 것인지 여부 물어보는 로직 추가
 			_textPane.setText("");
+		}
+	}
+	
+	private class OpenAction extends AbstractAction{
+		public OpenAction() {
+			super("Open...");
+		}
+
+		public void actionPerformed(ActionEvent e) {
+			System.out.println(getValue(Action.NAME));
+			open();
+		}
+
+		private void open() {
+			//TODP: open logic...
 		}
 	}
 
