@@ -32,6 +32,7 @@ public class JNotePad extends JFrame {
 	private boolean _isSaved;
 	private JFileChooser _fc;
 	private File _file;
+	private static int count;
 	
 	public JNotePad() {
 		super("JNotePad");
