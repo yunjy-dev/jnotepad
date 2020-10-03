@@ -188,7 +188,12 @@ public class JNotePad extends JFrame {
 		if(_file==null)
 			saveAs();
 		else
-			save(_file);
+			try {
+				save(_file);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	}
 	//Save 인 경우 미리 연결된 file parameter 
 	//Save As 인 경우 사용자가 선택한 file parameter 
@@ -305,7 +310,7 @@ public class JNotePad extends JFrame {
 		}
 		public void actionPerformed(ActionEvent e) {
 			System.out.println(getValue(Action.NAME));
-//			save();
+			save();
 		}
 	}
 	
