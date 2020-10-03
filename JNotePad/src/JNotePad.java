@@ -1,6 +1,10 @@
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -142,6 +146,30 @@ public class JNotePad extends JFrame {
 		}
 	}
 
+	private void open() {
+		if(_fc.showOpenDialog(this)==JFileChooser.APPROVE_OPTION) {
+			File file = _fc.getSelectedFile();
+			try {
+				open(file);
+				setTitle(file.getName() + "  - JNotePad");
+			} catch(IOException e) {
+				JOptionPane.showMessageDialog(this, "Cannot open file" + file, "JNotePad", JOptionPane.ERROR_MESSAGE);
+			}
+		}
+	}
+	
+	private void open(File file) throws IOException{
+		BufferedReader r = new BufferedReader(new FileReader(file));
+		StringBuffer sbuf = new StringBuffer();
+		char[] buf = new char[1024];
+		int nread;
+		
+		while ((nread = r.read(buf))!= -1) {
+			sbuf.append(buf, 0, nread);
+		}
+		r.close();
+		_textPane.setText(sbuf.toString());
+	}
 	public static void main(String[] args) {
 		
 //		JNotePad jnotepad1 = new JNotePad();//.start();
@@ -224,10 +252,6 @@ public class JNotePad extends JFrame {
 			if(!confirmSave())
 				return;
 			open();
-		}
-
-		private void open() {
-			//TODP: open logic...
 		}
 	}
 
