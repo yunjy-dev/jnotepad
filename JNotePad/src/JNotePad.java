@@ -183,6 +183,13 @@ public class JNotePad extends JFrame {
 		_textPane.setText(sbuf.toString());
 	}
 	
+	
+	private void save() {
+		if(_file==null)
+			saveAs();
+		else
+			save(_file);
+	}
 	//Save 인 경우 미리 연결된 file parameter 
 	//Save As 인 경우 사용자가 선택한 file parameter 
 	private void save(File file) throws IOException{
