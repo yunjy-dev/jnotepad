@@ -6,6 +6,7 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ActionMap;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -20,13 +21,17 @@ public class JNotePad extends JFrame {
 	
 	private static JTextPane _textPane;
 	private ActionMap _actionMap;
+	private boolean _isSaved;
+	private JFileChooser _fc;
 	
 	public JNotePad() {
 		super("JNotePad");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		_textPane = new JTextPane();
 		_actionMap = createActionMap();
-
+		_isSaved = true;
+		_fc = new JFileChooser(".");
+		
 		add(_textPane);
 		setJMenuBar(createMenuBar());
 		add(createToolBar(), BorderLayout.NORTH);
@@ -114,10 +119,27 @@ public class JNotePad extends JFrame {
 		
 		return toolbar;
 	}
-	public void start() {
+	
+	private void start() {
 		setSize(600,400);
 		setLocation(100,100);
 		setVisible(true);
+	}
+	
+	private boolean confirmSave() {
+		if(_isSaved)
+			return true;
+		int ret = JOptionPane.showConfirmDialog(this, "Content has been modified. Save Changes?","JNotePad", JOptionPane.YES_NO_CANCEL_OPTION);
+		switch(ret) {
+		case JOptionPane.YES_OPTION:
+			return true;
+			
+		case JOptionPane.NO_OPTION:
+			return true;
+		
+		default:
+			return false;
+		}
 	}
 
 	public static void main(String[] args) {
@@ -199,6 +221,8 @@ public class JNotePad extends JFrame {
 
 		public void actionPerformed(ActionEvent e) {
 			System.out.println(getValue(Action.NAME));
+			if(!confirmSave())
+				return;
 			open();
 		}
 
