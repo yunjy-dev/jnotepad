@@ -153,6 +153,17 @@ public class JNotePad extends JFrame {
 			_textPane.cut();
 		}
 	}
+	
+	private class ExitAction extends AbstractAction{
+		public ExitAction() {
+			super("Exit");
+		}
+		
+		public void actionPerformed(ActionEvent e) {
+			System.out.println(getValue(Action.NAME));
+			System.exit(0);
+		}
+	}
 
 }
 
