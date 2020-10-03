@@ -22,6 +22,8 @@ import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.JToolBar;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 public class JNotePad extends JFrame {
 	
@@ -39,6 +41,26 @@ public class JNotePad extends JFrame {
 		_isSaved = true;
 		_fc = new JFileChooser(".");
 		_file = null;
+		_textPane.getDocument().addDocumentListener(new DocumentListener() {
+			
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				_isSaved = false;
+				
+			}
+			
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				_isSaved = false;
+				
+			}
+			
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				_isSaved = false;
+				
+			}
+		});
 		
 		add(_textPane);
 		setJMenuBar(createMenuBar());
@@ -278,6 +300,8 @@ public class JNotePad extends JFrame {
 		
 		public void actionPerformed(ActionEvent e) {
 			System.out.println(getValue(Action.NAME));
+			if(!confirmSave())
+				return;
 			System.exit(0);
 		}
 	}
@@ -290,7 +314,11 @@ public class JNotePad extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			System.out.println(getValue(Action.NAME));
 			//TODO: 사용자에게 저장할 것인지 여부 물어보는 로직 추가
+			//추가완료
+			if(!confirmSave())
+				return;
 			_textPane.setText("");
+			_isSaved = true;
 		}
 	}
 	
@@ -304,6 +332,8 @@ public class JNotePad extends JFrame {
 			if(!confirmSave())
 				return;
 			open();
+			_isSaved = true;
+
 		}
 	}
 	
@@ -314,6 +344,7 @@ public class JNotePad extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			System.out.println(getValue(Action.NAME));
 			save();
+			_isSaved = true;
 		}
 	}
 	
@@ -324,6 +355,7 @@ public class JNotePad extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			System.out.println(getValue(Action.NAME));
 			saveAs();
+			_isSaved = true;
 		}
 	}
 
