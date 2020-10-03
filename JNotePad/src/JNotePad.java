@@ -191,12 +191,15 @@ public class JNotePad extends JFrame {
 			try {
 				save(_file);
 			} catch (IOException e) {
-				String[] mesg = {
-						"Cannot save file: " + _file, "Access denied"
-				};
-				JOptionPane.showMessageDialog(this, mesg, "JNotePad", JOptionPane.ERROR_MESSAGE);
+				showSaveErrorMessage();
 				e.printStackTrace();
 			}
+	}
+	private void showSaveErrorMessage() {
+		String[] mesg = {
+				"Cannot save file: " + _file, "Access denied"
+		};
+		JOptionPane.showMessageDialog(this, mesg, "JNotePad", JOptionPane.ERROR_MESSAGE);
 	}
 	//Save 인 경우 미리 연결된 file parameter 
 	//Save As 인 경우 사용자가 선택한 file parameter 
@@ -213,10 +216,7 @@ public class JNotePad extends JFrame {
 				_file = file;
 				setTitle(_file.getName() + " - JNotePad");
 			} catch (Exception e) {
-				String[] mesg = {
-						"Cannot save file: " + _file, "Access denied"
-				};
-				JOptionPane.showMessageDialog(this, mesg, "JNotePad", JOptionPane.ERROR_MESSAGE);
+				showSaveErrorMessage();
 			}
 		}
 		
