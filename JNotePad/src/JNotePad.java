@@ -40,6 +40,8 @@ public class JNotePad extends JFrame {
 		am.put("about", new AboutAction());
 		am.put("help", new HelpAction());
 		am.put("cut", new CutAction());
+		am.put("exit", new ExitAction());
+
 
 		return am;
 	}
@@ -55,7 +57,8 @@ public class JNotePad extends JFrame {
 		m.add(new JMenuItem("Save"));
 		m.add(new JMenuItem("Save As..."));
 		m.addSeparator();
-		m.add(new JMenuItem("Exit"));
+//		m.add(new JMenuItem("Exit"));
+		m.add(new JMenuItem(_actionMap.get("exit")));
 		menubar.add(m);
 		
 		// Edit
