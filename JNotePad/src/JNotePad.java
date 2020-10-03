@@ -2,8 +2,10 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 
 import javax.swing.AbstractAction;
@@ -23,10 +25,11 @@ import javax.swing.JToolBar;
 
 public class JNotePad extends JFrame {
 	
-	private static JTextPane _textPane;
+	private JTextPane _textPane;
 	private ActionMap _actionMap;
 	private boolean _isSaved;
 	private JFileChooser _fc;
+	private File _file;
 	
 	public JNotePad() {
 		super("JNotePad");
@@ -35,6 +38,7 @@ public class JNotePad extends JFrame {
 		_actionMap = createActionMap();
 		_isSaved = true;
 		_fc = new JFileChooser(".");
+		_file = null;
 		
 		add(_textPane);
 		setJMenuBar(createMenuBar());
@@ -52,6 +56,8 @@ public class JNotePad extends JFrame {
 		am.put("exit", new ExitAction());
 		am.put("new", new NewAction());
 		am.put("open", new OpenAction());
+		am.put("save", new SaveAction());
+		am.put("saveas", new SaveAsAction());
 
 
 
@@ -68,8 +74,10 @@ public class JNotePad extends JFrame {
 		m.add(new JMenuItem(_actionMap.get("new")));
 //		m.add(new JMenuItem("Open..."));
 		m.add(new JMenuItem(_actionMap.get("open")));
-		m.add(new JMenuItem("Save"));
-		m.add(new JMenuItem("Save As..."));
+//		m.add(new JMenuItem("Save"));
+		m.add(new JMenuItem(_actionMap.get("save")));
+//		m.add(new JMenuItem("Save As..."));
+		m.add(new JMenuItem(_actionMap.get("saveas")));
 		m.addSeparator();
 //		m.add(new JMenuItem("Exit"));
 		m.add(new JMenuItem(_actionMap.get("exit")));
@@ -105,8 +113,11 @@ public class JNotePad extends JFrame {
 		toolbar.add(new JButton(_actionMap.get("new")));
 //		toolbar.add(new JButton("Open"));
 		toolbar.add(new JButton(_actionMap.get("open")));
-		toolbar.add(new JButton("Save"));
-		toolbar.add(new JButton("Save As"));
+//		toolbar.add(new JButton("Save"));
+		toolbar.add(new JButton(_actionMap.get("save")));
+//		toolbar.add(new JButton("Save As"));
+		toolbar.add(new JButton(_actionMap.get("saveas")));
+
 		toolbar.addSeparator();
 		
 		toolbar.add(new JButton("Copy"));
@@ -152,6 +163,7 @@ public class JNotePad extends JFrame {
 			try {
 				open(file);
 				setTitle(file.getName() + "  - JNotePad");
+				_file = file;
 			} catch(IOException e) {
 				JOptionPane.showMessageDialog(this, "Cannot open file" + file, "JNotePad", JOptionPane.ERROR_MESSAGE);
 			}
@@ -170,6 +182,31 @@ public class JNotePad extends JFrame {
 		r.close();
 		_textPane.setText(sbuf.toString());
 	}
+	
+	//Save 인 경우 미리 연결된 file parameter 
+	//Save As 인 경우 사용자가 선택한 file parameter 
+	private void save(File file) throws IOException{
+		BufferedWriter w = new BufferedWriter(new FileWriter(file));
+		w.write(_textPane.getText());
+		w.close();
+	}
+	private void saveAs() {
+		if(_fc.showSaveDialog(this)==JFileChooser.APPROVE_OPTION) {
+			File file = _fc.getSelectedFile();
+			try {
+				save(file);
+				_file = file;
+				setTitle(_file.getName() + " - JNotePad");
+			} catch (Exception e) {
+				String[] mesg = {
+						"Cannot save file: " + _file, "Access denied"
+				};
+				JOptionPane.showMessageDialog(this, mesg, "JNotePad", JOptionPane.ERROR_MESSAGE);
+			}
+		}
+		
+	}
+	
 	public static void main(String[] args) {
 		
 //		JNotePad jnotepad1 = new JNotePad();//.start();
@@ -214,7 +251,7 @@ public class JNotePad extends JFrame {
 		}
 		public void actionPerformed(ActionEvent e) {
 			System.out.println(getValue(Action.NAME));
-			System.out.println(getValue(JNotePad._textPane.getText().toString()));//왜 null???????
+			System.out.println(getValue(_textPane.getText().toString()));//왜 null???????
 			_textPane.cut();
 		}
 	}
@@ -252,6 +289,26 @@ public class JNotePad extends JFrame {
 			if(!confirmSave())
 				return;
 			open();
+		}
+	}
+	
+	private class SaveAction extends AbstractAction{
+		public SaveAction() {
+			super("Save");
+		}
+		public void actionPerformed(ActionEvent e) {
+			System.out.println(getValue(Action.NAME));
+//			save();
+		}
+	}
+	
+	private class SaveAsAction extends AbstractAction{
+		public SaveAsAction() {
+			super("Save As...");
+		}
+		public void actionPerformed(ActionEvent e) {
+			System.out.println(getValue(Action.NAME));
+			saveAs();
 		}
 	}
 
