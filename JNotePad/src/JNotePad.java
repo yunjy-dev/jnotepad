@@ -191,7 +191,10 @@ public class JNotePad extends JFrame {
 			try {
 				save(_file);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				String[] mesg = {
+						"Cannot save file: " + _file, "Access denied"
+				};
+				JOptionPane.showMessageDialog(this, mesg, "JNotePad", JOptionPane.ERROR_MESSAGE);
 				e.printStackTrace();
 			}
 	}
