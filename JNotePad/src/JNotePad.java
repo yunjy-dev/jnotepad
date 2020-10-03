@@ -169,6 +169,7 @@ public class JNotePad extends JFrame {
 		int ret = JOptionPane.showConfirmDialog(this, "Content has been modified. Save Changes?","JNotePad", JOptionPane.YES_NO_CANCEL_OPTION);
 		switch(ret) {
 		case JOptionPane.YES_OPTION:
+			save();
 			return true;
 			
 		case JOptionPane.NO_OPTION:
@@ -179,17 +180,20 @@ public class JNotePad extends JFrame {
 		}
 	}
 
-	private void open() {
+	private boolean open() {
 		if(_fc.showOpenDialog(this)==JFileChooser.APPROVE_OPTION) {
 			File file = _fc.getSelectedFile();
 			try {
 				open(file);
 				setTitle(file.getName() + "  - JNotePad");
 				_file = file;
+				return true;
 			} catch(IOException e) {
 				JOptionPane.showMessageDialog(this, "Cannot open file" + file, "JNotePad", JOptionPane.ERROR_MESSAGE);
+				return false;
 			}
 		}
+		return false;
 	}
 	
 	private void open(File file) throws IOException{
@@ -206,16 +210,18 @@ public class JNotePad extends JFrame {
 	}
 	
 	
-	private void save() {
+	private boolean save() {
 		if(_file==null)
-			saveAs();
+			return saveAs();
 		else
 			try {
 				save(_file);
+				return true;
 			} catch (IOException e) {
 				showSaveErrorMessage();
 				e.printStackTrace();
 			}
+		return false;
 	}
 	private void showSaveErrorMessage() {
 		String[] mesg = {
@@ -230,18 +236,20 @@ public class JNotePad extends JFrame {
 		w.write(_textPane.getText());
 		w.close();
 	}
-	private void saveAs() {
+	private boolean saveAs() {
 		if(_fc.showSaveDialog(this)==JFileChooser.APPROVE_OPTION) {
 			File file = _fc.getSelectedFile();
 			try {
 				save(file);
 				_file = file;
 				setTitle(_file.getName() + " - JNotePad");
+				return true;
 			} catch (Exception e) {
 				showSaveErrorMessage();
+				return false;
 			}
 		}
-		
+		return false;
 	}
 	
 	public static void main(String[] args) {
@@ -331,8 +339,8 @@ public class JNotePad extends JFrame {
 			System.out.println(getValue(Action.NAME));
 			if(!confirmSave())
 				return;
-			open();
-			_isSaved = true;
+			//open();
+			_isSaved = open();
 
 		}
 	}
@@ -343,8 +351,8 @@ public class JNotePad extends JFrame {
 		}
 		public void actionPerformed(ActionEvent e) {
 			System.out.println(getValue(Action.NAME));
-			save();
-			_isSaved = true;
+			//save();
+			_isSaved = save();
 		}
 	}
 	
@@ -354,8 +362,8 @@ public class JNotePad extends JFrame {
 		}
 		public void actionPerformed(ActionEvent e) {
 			System.out.println(getValue(Action.NAME));
-			saveAs();
-			_isSaved = true;
+			//saveAs();
+			_isSaved = saveAs();
 		}
 	}
 
