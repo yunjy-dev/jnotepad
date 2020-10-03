@@ -41,6 +41,7 @@ public class JNotePad extends JFrame {
 		am.put("help", new HelpAction());
 		am.put("cut", new CutAction());
 		am.put("exit", new ExitAction());
+		am.put("new", new NewAction());
 
 
 		return am;
@@ -52,7 +53,8 @@ public class JNotePad extends JFrame {
 		JMenu m;
 		// File
 		m = new JMenu("File");
-		m.add(new JMenuItem("New"));
+//		m.add(new JMenuItem("New"));
+		m.add(new JMenuItem(_actionMap.get("new")));
 		m.add(new JMenuItem("Open..."));
 		m.add(new JMenuItem("Save"));
 		m.add(new JMenuItem("Save As..."));
@@ -87,7 +89,8 @@ public class JNotePad extends JFrame {
 
 		JToolBar toolbar = new JToolBar();
 
-		toolbar.add(new JButton("New"));
+//		toolbar.add(new JButton("New"));
+		toolbar.add(new JButton(_actionMap.get("new")));
 		toolbar.add(new JButton("Open"));
 		toolbar.add(new JButton("Save"));
 		toolbar.add(new JButton("Save As"));
@@ -115,7 +118,13 @@ public class JNotePad extends JFrame {
 
 	public static void main(String[] args) {
 		
+//		JNotePad jnotepad1 = new JNotePad();//.start();
+//		jnotepad1.start();
+//		JNotePad jnotepad2 = new JNotePad();//.start();
+//		jnotepad2.start();
+		
 		new JNotePad().start();
+		
 	}
 	
 	private class AboutAction extends AbstractAction{
@@ -152,7 +161,6 @@ public class JNotePad extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			System.out.println(getValue(Action.NAME));
 			System.out.println(getValue(JNotePad._textPane.getText().toString()));//왜 null???????
-
 			_textPane.cut();
 		}
 	}
@@ -165,6 +173,18 @@ public class JNotePad extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			System.out.println(getValue(Action.NAME));
 			System.exit(0);
+		}
+	}
+	
+	private class NewAction extends AbstractAction{
+		public NewAction() {
+			super("New");
+		}
+		
+		public void actionPerformed(ActionEvent e) {
+			System.out.println(getValue(Action.NAME));
+			//TODO: 사용자에게 저장할 것인지 여부 물어보는 로직 추가
+			_textPane.setText("");
 		}
 	}
 
