@@ -92,22 +92,16 @@ public class JNotePad extends JFrame {
 		JMenu m;
 		// File
 		m = new JMenu("File");
-//		m.add(new JMenuItem("New"));
 		m.add(new JMenuItem(_actionMap.get("new")));
-//		m.add(new JMenuItem("Open..."));
 		m.add(new JMenuItem(_actionMap.get("open")));
-//		m.add(new JMenuItem("Save"));
 		m.add(new JMenuItem(_actionMap.get("save")));
-//		m.add(new JMenuItem("Save As..."));
 		m.add(new JMenuItem(_actionMap.get("saveas")));
 		m.addSeparator();
-//		m.add(new JMenuItem("Exit"));
 		m.add(new JMenuItem(_actionMap.get("exit")));
 		menubar.add(m);
 		
 		// Edit
 		m = new JMenu("Edit");
-//		m.add(new JMenuItem("Cut"));
 		m.add(new JMenuItem(_actionMap.get("cut")));
 		m.add(new JMenuItem("Copy"));
 		m.add(new JMenuItem("Paste"));
@@ -115,13 +109,7 @@ public class JNotePad extends JFrame {
 		
 		//Help
 		m = new JMenu("Help");
-//		m.add(new JMenuItem("Help"));
 		m.add(new JMenuItem(_actionMap.get("help")));
-//		m.add(new JMenuItem("About"));
-		
-//		JMenuItem mi = new JMenuItem("About");
-//		mi.addActionListener(new AboutAction());
-//		m.add(mi);
 		m.add(new JMenuItem(_actionMap.get("about")));
 		
 		menubar.add(m);
@@ -254,12 +242,9 @@ public class JNotePad extends JFrame {
 	
 	public static void main(String[] args) {
 		
-//		JNotePad jnotepad1 = new JNotePad();//.start();
-//		jnotepad1.start();
-//		JNotePad jnotepad2 = new JNotePad();//.start();
-//		jnotepad2.start();
-		
 		new JNotePad().start();
+		
+		System.out.println(Math.max(10, 5));
 		
 	}
 	
